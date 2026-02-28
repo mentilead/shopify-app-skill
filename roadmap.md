@@ -326,7 +326,7 @@ Make the skill installable and keep it current as Shopify evolves.
 - [x] **Add `.claude-plugin/marketplace.json`** manifest for plugin registry listing
 - [x] **Add README.md** with installation instructions, scope description, and acknowledgments
 - [x] **Add LICENSE** (MIT)
-- [ ] **Publish to GitHub** and register on plugin directories (buildwithclaude.com, Smithery, MCP Market)
+- [x] **Publish to GitHub** and register on plugin directories (buildwithclaude.com, Smithery, MCP Market)
 - [x] **Set up update cadence** — review after each Shopify API version release (quarterly) and after each new app built
 
 ### Ongoing Maintenance
