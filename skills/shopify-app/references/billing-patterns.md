@@ -163,3 +163,27 @@ if (url.searchParams.has('charge_id')) {
 ```
 
 This forces all loaders to re-run with fresh DynamoDB data.
+
+---
+
+## Plan Definition in `shopifyApp()` Config
+
+```typescript
+// In shopify.server.ts
+const shopify = shopifyApp({
+  billing: {
+    'Starter Monthly': {
+      amount: 9.99,
+      currencyCode: 'USD',
+      interval: BillingInterval.Every30Days,
+    },
+    'Growth Monthly': {
+      amount: 29.99,
+      currencyCode: 'USD',
+      interval: BillingInterval.Every30Days,
+      trialDays: 14,
+    },
+  },
+  // ...other config
+});
+```

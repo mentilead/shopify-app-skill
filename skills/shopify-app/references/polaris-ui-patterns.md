@@ -49,22 +49,6 @@ export function ClientOnly({ children, fallback = null }: Props) {
 
 ---
 
-## Toast Notifications
-
-```typescript
-// In route action, return toast data
-return { ok: true, message: 'Settings saved' };
-
-// In component, show Shopify toast
-useEffect(() => {
-  if (fetcherData?.ok) {
-    window.shopify.toast.show(fetcherData.message);
-  }
-}, [fetcherData]);
-```
-
----
-
 ## SSR Hydration Rule
 
 **NEVER use inline event handlers** — they cause hydration mismatches in SSR apps:
@@ -173,14 +157,6 @@ Always use React's event system (`onClick`, `onChange`, etc.) via state and hand
 </s-stack>
 ```
 
-### Box Container (`<s-box>`)
-
-```html
-<s-box padding="400" paddingInlineStart="500" background="bg-surface-secondary">
-  <!-- Content with custom spacing -->
-</s-box>
-```
-
 ### Index Table Page
 
 ```tsx
@@ -218,26 +194,57 @@ export default function ItemsIndex() {
 
 ### Settings Page
 
-Form with `useFetcher` for non-navigating saves:
+Form with `useFetcher`, toast feedback, error banner, and loader-synced state:
 
 ```tsx
 export default function Settings() {
   const { settings } = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
+  const navigate = useNavigate();
+
+  // Controlled field with loader sync (see react-router-patterns.md Gotcha)
   const [brandColor, setBrandColor] = useState(settings.brandColor);
+  const lastSyncRef = useRef(settings.updatedAt);
+  useEffect(() => {
+    if (settings.updatedAt !== lastSyncRef.current) {
+      setBrandColor(settings.brandColor);
+      lastSyncRef.current = settings.updatedAt;
+    }
+  }, [settings.updatedAt, settings.brandColor]);
+
+  // Read fetcher response
+  const fetcherData = fetcher.data as {
+    ok?: boolean; error?: string; message?: string;
+  } | undefined;
+
+  // Toast on success (uses Shopify App Bridge)
+  useEffect(() => {
+    if (fetcherData?.ok) {
+      window.shopify.toast.show(fetcherData.message ?? 'Saved');
+    }
+  }, [fetcherData]);
 
   return (
     <Page title="Settings" backAction={{ onAction: () => navigate('/app') }}>
+      {fetcherData?.error && (
+        <Banner tone="critical" onDismiss={() => {}}>
+          {fetcherData.error}
+        </Banner>
+      )}
       <fetcher.Form method="post">
         <BlockStack gap="400">
           <Card>
             <FormLayout>
-              <TextField label="Brand color" name="brandColor" value={brandColor} onChange={setBrandColor} autoComplete="off" />
-              <TextField label="Support email" name="supportEmail" defaultValue={settings.supportEmail} autoComplete="email" />
+              <TextField label="Brand color" name="brandColor"
+                value={brandColor} onChange={setBrandColor} autoComplete="off" />
+              <TextField label="Support email" name="supportEmail"
+                defaultValue={settings.supportEmail} autoComplete="email" />
             </FormLayout>
           </Card>
           <InlineStack align="end">
-            <Button variant="primary" submit loading={fetcher.state !== 'idle'}>Save</Button>
+            <Button variant="primary" submit loading={fetcher.state !== 'idle'}>
+              Save
+            </Button>
           </InlineStack>
         </BlockStack>
       </fetcher.Form>
@@ -248,25 +255,17 @@ export default function Settings() {
 
 ### Dashboard Layout
 
-Stat cards (3-column grid) + recent activity section:
+Stat cards (3-column grid) + activity section. Uses same `<s-card>` / `<s-box>` pattern from Section with Grid above.
 
 ```html
 <s-page title="Dashboard" subtitle="Overview">
   <s-section>
     <s-grid columns="3" gap="400">
-      <s-card>
-        <s-box padding="400">
-          <s-stack gap="100">
-            <s-text variant="bodySm" tone="subdued">Total orders</s-text>
-            <s-text variant="headingLg">1,248</s-text>
-          </s-stack>
-        </s-box>
-      </s-card>
-      <!-- Repeat s-card for Revenue, Conversion, etc. -->
+      <!-- Repeat s-card with s-box padding="400" for each stat -->
     </s-grid>
   </s-section>
   <s-section heading="Recent activity">
-    <!-- IndexTable or DataTable for recent items -->
+    <!-- IndexTable or DataTable -->
   </s-section>
 </s-page>
 ```
