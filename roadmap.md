@@ -302,12 +302,12 @@ Test the skill against real development tasks and refine based on failures.
 
 ### Tasks
 
-- [ ] **Test: Scaffold a new route** — ask Claude Code to create a new settings page with loader, action, and Polaris UI. Verify it uses `useNavigate()` instead of `url` prop, handles `useFetcher` correctly, and scopes DB queries by shop.
-- [ ] **Test: Add a webhook handler** — ask Claude Code to create a new webhook handler. Verify it uses `authenticate.webhook`, returns 200, and follows the pattern.
-- [ ] **Test: Add billing plan** — ask Claude Code to add a new billing tier. Verify it updates PLAN_LIMITS, uses `isDevelopmentStore()`, and handles the `charge_id` redirect.
-- [ ] **Test: Create CDK stack** — ask Claude Code to add a new SQS queue with DLQ and Lambda worker. Verify it follows the established patterns.
-- [ ] **Test: Fix a bug** — describe a symptom (e.g., "banner doesn't show after save") and verify Claude Code identifies the `useFetcher`/`useActionData` confusion.
-- [ ] **Refine SKILL.md** based on test failures — if Claude Code makes a mistake, add the correction to the appropriate reference file or promote it to a gotcha in SKILL.md.
+- [x] **Test: Scaffold a new route** — ask Claude Code to create a new settings page with loader, action, and Polaris UI. Verify it uses `useNavigate()` instead of `url` prop, handles `useFetcher` correctly, and scopes DB queries by shop.
+- [x] **Test: Add a webhook handler** — ask Claude Code to create a new webhook handler. Verify it uses `authenticate.webhook`, returns 200, and follows the pattern.
+- [x] **Test: Add billing plan** — ask Claude Code to add a new billing tier. Verify it updates PLAN_LIMITS, uses `isDevelopmentStore()`, and handles the `charge_id` redirect.
+- [x] **Test: Create CDK stack** — ask Claude Code to add a new SQS queue with DLQ and Lambda worker. Verify it follows the established patterns.
+- [x] **Test: Fix a bug** — describe a symptom (e.g., "banner doesn't show after save") and verify Claude Code identifies the `useFetcher`/`useActionData` confusion.
+- [x] **Refine SKILL.md** based on test failures — if Claude Code makes a mistake, add the correction to the appropriate reference file or promote it to a gotcha in SKILL.md.
 
 ### Success Criteria
 - All 5 test scenarios produce correct code on first attempt
@@ -323,11 +323,11 @@ Make the skill installable and keep it current as Shopify evolves.
 
 ### Tasks
 
-- [ ] **Add `.claude-plugin/marketplace.json`** manifest for plugin registry listing
-- [ ] **Add README.md** with installation instructions, scope description, and acknowledgments
-- [ ] **Add LICENSE** (MIT)
+- [x] **Add `.claude-plugin/marketplace.json`** manifest for plugin registry listing
+- [x] **Add README.md** with installation instructions, scope description, and acknowledgments
+- [x] **Add LICENSE** (MIT)
 - [ ] **Publish to GitHub** and register on plugin directories (buildwithclaude.com, Smithery, MCP Market)
-- [ ] **Set up update cadence** — review after each Shopify API version release (quarterly) and after each new app built
+- [x] **Set up update cadence** — review after each Shopify API version release (quarterly) and after each new app built
 
 ### Ongoing Maintenance
 - Each new app built generates new learnings → update relevant reference files

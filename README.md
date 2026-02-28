@@ -50,7 +50,9 @@ shopify-app-skill/
 │           ├── email-patterns.md             # SQS queuing, suppression, Resend webhooks
 │           ├── security-patterns.md          # Multi-tenancy, CORS, S3 presigned URLs
 │           ├── testing-patterns.md           # Playwright, FrameLocator, auth setup
-│           └── local-dev-patterns.md         # Docker, DynamoDB Local, startup sequence
+│           ├── local-dev-patterns.md         # Docker, DynamoDB Local, startup sequence
+│           ├── production-deployment.md      # CloudFront, OIDC deploys, environment config
+│           └── project-conventions.md        # File naming, imports, project structure rules
 ├── .claude-plugin/
 │   ├── plugin.json                           # Plugin manifest
 │   └── marketplace.json                      # Marketplace manifest
