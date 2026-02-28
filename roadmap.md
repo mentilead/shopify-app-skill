@@ -40,7 +40,8 @@ shopify-app-skill/
 │   ├── email-patterns.md             # SQS queuing, suppression list, Resend webhooks
 │   ├── security-patterns.md          # Multi-tenancy scoping, CORS, S3 presigned URLs, no X-Frame-Options
 │   ├── testing-patterns.md           # Playwright embedded app testing, auth setup, FrameLocator, selectors
-│   └── local-dev-patterns.md         # Docker Compose, DynamoDB Local, LocalStack, startup sequence
+│   ├── local-dev-patterns.md         # Docker Compose, DynamoDB Local, LocalStack, startup sequence
+│   └── production-deployment.md      # Full zero-to-production deployment guide, AWS setup, DNS, secrets
 └── scripts/                          # Optional helper scripts
     └── validate-skill.sh             # Checks SKILL.md structure and references
 ```
@@ -197,6 +198,47 @@ Cover the deployment, infrastructure, and operational patterns that no existing 
 - A developer can set up a complete local dev environment following only local-dev-patterns.md
 - CDK patterns are complete enough to deploy a working staging environment
 - Monitoring section covers the minimum viable alerting for a production app
+
+---
+
+## Phase 3.5: Production Deployment & Operations Guide
+
+### Goal
+Document the complete journey from zero to a running production app — the operational knowledge that no existing Shopify skill covers. This fills the gap between "I have CDK code" and "my app is live in production."
+
+### Background
+This phase was born from a real Phase 8.5 production deployment of B2B Onboard, where we created a new AWS account from scratch and hit undocumented issues (Lambda reserved concurrency limits on new accounts, CDK bootstrap requiring app context, Resend webhook chicken-and-egg, Plus dev stores rejecting test charges, etc.).
+
+### Tasks
+
+- [x] **`references/production-deployment.md`** — comprehensive zero-to-production guide covering:
+  - AWS account setup (standalone account for Free Tier, billing alerts, root MFA, IAM admin user, CLI profile)
+  - ACM certificate request in us-east-1 (CloudFront requirement) with DNS validation
+  - CDK configuration (`cdk.json` environment config with account, region, domain, cert ARN, notification email)
+  - Secrets Manager setup (4 secrets per environment: shopify, recaptcha, resend, ga4; naming convention; GA4 is optional)
+  - Shopify app creation in Partners Dashboard (app URL, redirect URL, scopes, webhooks, app proxy, compliance webhooks)
+  - reCAPTCHA setup (v2 checkbox, production domain)
+  - Resend email setup (per-environment API key, webhook endpoint configured post-deploy, Svix signing secret)
+  - CDK bootstrap in both regions (app region + us-east-1 for BillingStack)
+  - Build & deploy sequence (stack ordering, BillingStack deploys separately to us-east-1)
+  - DNS configuration (CNAME → CloudFront distribution domain, verification with dig + curl)
+  - Post-deploy tasks (SNS email confirmation, Resend webhook + secret update, Lambda concurrency quota increase)
+  - GitHub Actions CI/CD (OIDC provider, IAM role, production environment with required reviewers)
+  - Staging vs production strategy (separate accounts, identical CDK code with `-c env=`, separate Shopify apps, separate secrets)
+  - Common gotchas with explicit symptoms and fixes:
+    - Lambda reserved concurrency exceeds new account limit (10 concurrent executions default)
+    - CDK app entry requires `-c env=` even for bootstrap
+    - Failed stacks need manual CloudFormation console delete before redeploy
+    - BillingStack must deploy to us-east-1
+    - Resend webhook signing secret chicken-and-egg
+    - Plus dev stores can't approve test charges (use Basic dev store)
+    - CloudFront CSRF from missing x-forwarded-host header
+
+### Success Criteria
+- A developer can go from zero AWS account to a live production Shopify app following only this guide
+- Every step includes the exact CLI commands and expected output
+- All gotchas encountered during real deployments are documented with symptoms and fixes
+- The guide works for any Shopify embedded app on this stack, not just B2B Onboard (domain/app names are parameterized)
 
 ---
 

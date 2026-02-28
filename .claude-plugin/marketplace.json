@@ -1,0 +1,21 @@
+{
+  "name": "mentilead-shopify-tools",
+  "owner": {
+    "name": "Mentilead (Aggregatit)",
+    "email": "contact@mentilead.com"
+  },
+  "metadata": {
+    "description": "Shopify development skills for Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "shopify-app-skill",
+      "source": "./",
+      "description": "Production patterns for embedded Shopify apps with React Router v7, DynamoDB, Lambda, SQS, CDK.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "development",
+      "keywords": ["shopify", "embedded-app", "react-router", "polaris", "dynamodb", "lambda", "cdk", "serverless"]
+    }
+  ]
+}

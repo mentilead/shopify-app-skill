@@ -11,25 +11,26 @@ ok() { echo "OK: $1"; }
 
 # Determine project root (script is in scripts/)
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+SKILL_DIR="$ROOT/skills/shopify-app"
 
 echo "=== Shopify App Skill Validation ==="
 echo ""
 
 # --- 1. Check SKILL.md exists ---
-if [[ -f "$ROOT/SKILL.md" ]]; then
-  ok "SKILL.md exists"
+if [[ -f "$SKILL_DIR/SKILL.md" ]]; then
+  ok "skills/shopify-app/SKILL.md exists"
 else
-  error "SKILL.md not found"
+  error "skills/shopify-app/SKILL.md not found"
 fi
 
 # --- 2. Check SKILL.md has frontmatter ---
-if head -1 "$ROOT/SKILL.md" | grep -q '^---$'; then
+if head -1 "$SKILL_DIR/SKILL.md" | grep -q '^---$'; then
   ok "SKILL.md has frontmatter"
 else
   error "SKILL.md missing YAML frontmatter (should start with ---)"
 fi
 
-# --- 3. Check all 13 reference files exist ---
+# --- 3. Check all 14 reference files exist ---
 REFERENCES=(
   "react-router-patterns.md"
   "dynamodb-patterns.md"
@@ -44,11 +45,12 @@ REFERENCES=(
   "security-patterns.md"
   "testing-patterns.md"
   "local-dev-patterns.md"
+  "production-deployment.md"
 )
 
 MISSING_REFS=0
 for ref in "${REFERENCES[@]}"; do
-  if [[ -f "$ROOT/references/$ref" ]]; then
+  if [[ -f "$SKILL_DIR/references/$ref" ]]; then
     ok "references/$ref exists"
   else
     error "references/$ref not found"
@@ -60,7 +62,7 @@ done
 echo ""
 echo "--- Line Counts ---"
 
-SKILL_LINES=$(wc -l < "$ROOT/SKILL.md")
+SKILL_LINES=$(wc -l < "$SKILL_DIR/SKILL.md")
 echo "SKILL.md: $SKILL_LINES lines"
 if (( SKILL_LINES > 500 )); then
   warn "SKILL.md exceeds 500 lines ($SKILL_LINES lines)"
@@ -69,8 +71,8 @@ else
 fi
 
 for ref in "${REFERENCES[@]}"; do
-  if [[ -f "$ROOT/references/$ref" ]]; then
-    LINES=$(wc -l < "$ROOT/references/$ref")
+  if [[ -f "$SKILL_DIR/references/$ref" ]]; then
+    LINES=$(wc -l < "$SKILL_DIR/references/$ref")
     echo "references/$ref: $LINES lines"
     if (( LINES > 300 )); then
       warn "references/$ref exceeds 300 lines ($LINES lines)"
@@ -85,18 +87,18 @@ echo "--- Cross-Reference Check ---"
 while IFS= read -r link; do
   # Extract path from backtick-wrapped references
   ref_path=$(echo "$link" | sed 's/.*`\(references\/[^`]*\)`.*/\1/')
-  if [[ -f "$ROOT/$ref_path" ]]; then
+  if [[ -f "$SKILL_DIR/$ref_path" ]]; then
     ok "Link resolves: $ref_path"
   else
     error "Broken link in SKILL.md: $ref_path"
   fi
-done < <(grep -o '`references/[^`]*`' "$ROOT/SKILL.md" | sort -u)
+done < <(grep -o '`references/[^`]*`' "$SKILL_DIR/SKILL.md" | sort -u)
 
 # --- 6. Check all 10 gotchas are present ---
 echo ""
 echo "--- Gotcha Check ---"
 
-GOTCHA_COUNT=$(grep -c '^### [0-9]\+\.' "$ROOT/SKILL.md" || true)
+GOTCHA_COUNT=$(grep -c '^### [0-9]\+\.' "$SKILL_DIR/SKILL.md" || true)
 echo "Found $GOTCHA_COUNT gotchas in SKILL.md"
 if (( GOTCHA_COUNT >= 10 )); then
   ok "All 10 gotchas present"
@@ -108,8 +110,8 @@ fi
 echo ""
 echo "--- WRONG/CORRECT Pattern Check ---"
 
-WRONG_COUNT=$(grep -c 'WRONG' "$ROOT/SKILL.md" || true)
-CORRECT_COUNT=$(grep -c 'CORRECT' "$ROOT/SKILL.md" || true)
+WRONG_COUNT=$(grep -c 'WRONG' "$SKILL_DIR/SKILL.md" || true)
+CORRECT_COUNT=$(grep -c 'CORRECT' "$SKILL_DIR/SKILL.md" || true)
 echo "SKILL.md: $WRONG_COUNT WRONG, $CORRECT_COUNT CORRECT patterns"
 if (( WRONG_COUNT >= 5 )); then
   ok "Sufficient WRONG/CORRECT patterns in SKILL.md"
@@ -121,7 +123,7 @@ fi
 echo ""
 echo "--- Publishing Files ---"
 
-for file in "plugin.json" "README.md" "LICENSE"; do
+for file in ".claude-plugin/plugin.json" ".claude-plugin/marketplace.json" "README.md" "LICENSE"; do
   if [[ -f "$ROOT/$file" ]]; then
     ok "$file exists"
   else

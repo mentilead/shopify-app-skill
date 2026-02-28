@@ -1,0 +1,11 @@
+{
+  "name": "shopify-app-skill",
+  "description": "Production patterns for embedded Shopify apps with React Router v7, DynamoDB single-table design, Lambda, SQS, CDK.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Mentilead (Aggregatit)",
+    "email": "contact@mentilead.com"
+  },
+  "repository": "https://github.com/mentilead/shopify-app-skill",
+  "license": "MIT"
+}

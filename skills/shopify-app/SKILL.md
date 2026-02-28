@@ -240,3 +240,4 @@ Use the official **Shopify Dev MCP server** alongside this skill for documentati
 | Multi-tenancy, CORS, S3 presigned URLs | `references/security-patterns.md` |
 | Playwright, FrameLocator, selectors | `references/testing-patterns.md` |
 | Docker, DynamoDB Local, startup | `references/local-dev-patterns.md` |
+| Zero-to-production deployment, AWS setup, DNS, CI/CD | `references/production-deployment.md` |

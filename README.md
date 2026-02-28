@@ -6,52 +6,61 @@ Every pattern is battle-tested from real app development and Shopify App Store s
 
 ## Installation
 
-### Option 1: Claude Code CLI
+### Option 1: Plugin Marketplace (Recommended)
 
 ```bash
-claude skill add shopify-app-skill
+/plugin marketplace add mentilead/shopify-app-skill
+/plugin install shopify-app-skill@mentilead-shopify-tools
 ```
 
 ### Option 2: Manual (copy to project)
 
-Copy `SKILL.md` and the `references/` directory into your project's `.claude/skills/` directory:
+Copy `skills/shopify-app/SKILL.md` and `skills/shopify-app/references/` into your project's `.claude/skills/` directory:
 
 ```bash
-git clone https://github.com/peerjakobsen/shopify-app-skill.git
-cp shopify-app-skill/SKILL.md .claude/skills/shopify-app/SKILL.md
-cp -r shopify-app-skill/references .claude/skills/shopify-app/references
+git clone https://github.com/mentilead/shopify-app-skill.git
+mkdir -p .claude/skills/shopify-app
+cp shopify-app-skill/skills/shopify-app/SKILL.md .claude/skills/shopify-app/SKILL.md
+cp -r shopify-app-skill/skills/shopify-app/references .claude/skills/shopify-app/references
 ```
 
 ### Option 3: Git submodule
 
 ```bash
-git submodule add https://github.com/peerjakobsen/shopify-app-skill.git .claude/skills/shopify-app
+git submodule add https://github.com/mentilead/shopify-app-skill.git .claude/skills/shopify-app
 ```
 
 ## Structure
 
 ```
 shopify-app-skill/
-├── SKILL.md                              # Main entry point (gotchas, quick reference, structure)
-├── references/
-│   ├── react-router-patterns.md          # Routing, loaders, actions, fetchers, revalidation
-│   ├── dynamodb-patterns.md              # Single-table design, keys, queries, transactions, TTL
-│   ├── shopify-api-patterns.md           # GraphQL API, customers, metafields, error handling
-│   ├── billing-patterns.md              # Billing flow, isDevelopmentStore, plan gating, trials
-│   ├── app-proxy-patterns.md            # HMAC verification, CSS inlining, POST redirect
-│   ├── webhook-patterns.md             # Handlers, GDPR webhooks, uninstall, reinstall
-│   ├── lambda-architecture.md           # Cold start, SQS workers, config loading
-│   ├── cdk-infrastructure.md            # CloudFront, OIDC, monitoring, SQS config
-│   ├── polaris-ui-patterns.md           # Navigation, tokens, composition, selectors
-│   ├── email-patterns.md               # SQS queuing, suppression, Resend webhooks
-│   ├── security-patterns.md            # Multi-tenancy, CORS, S3 presigned URLs
-│   ├── testing-patterns.md             # Playwright, FrameLocator, auth setup
-│   └── local-dev-patterns.md           # Docker, DynamoDB Local, startup sequence
-├── plugin.json                          # Plugin manifest
+├── skills/
+│   └── shopify-app/
+│       ├── SKILL.md                          # Main entry point (gotchas, quick reference, structure)
+│       └── references/
+│           ├── react-router-patterns.md      # Routing, loaders, actions, fetchers, revalidation
+│           ├── dynamodb-patterns.md          # Single-table design, keys, queries, transactions, TTL
+│           ├── shopify-api-patterns.md       # GraphQL API, customers, metafields, error handling
+│           ├── billing-patterns.md           # Billing flow, isDevelopmentStore, plan gating, trials
+│           ├── app-proxy-patterns.md         # HMAC verification, CSS inlining, POST redirect
+│           ├── webhook-patterns.md           # Handlers, GDPR webhooks, uninstall, reinstall
+│           ├── lambda-architecture.md        # Cold start, SQS workers, config loading
+│           ├── cdk-infrastructure.md         # CloudFront, OIDC, monitoring, SQS config
+│           ├── polaris-ui-patterns.md        # Navigation, tokens, composition, selectors
+│           ├── email-patterns.md             # SQS queuing, suppression, Resend webhooks
+│           ├── security-patterns.md          # Multi-tenancy, CORS, S3 presigned URLs
+│           ├── testing-patterns.md           # Playwright, FrameLocator, auth setup
+│           └── local-dev-patterns.md         # Docker, DynamoDB Local, startup sequence
+├── .claude-plugin/
+│   ├── plugin.json                           # Plugin manifest
+│   └── marketplace.json                      # Marketplace manifest
+├── .github/
+│   └── workflows/
+│       └── ci.yml                            # CI validation
 ├── scripts/
-│   └── validate-skill.sh               # Structure validation script
-├── LICENSE                              # MIT
-└── README.md                           # This file
+│   └── validate-skill.sh                     # Structure validation script
+├── LICENSE                                   # MIT
+└── README.md                                 # This file
 ```
 
 ## Token Budgets
