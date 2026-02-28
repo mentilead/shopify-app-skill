@@ -1,0 +1,45 @@
+name: Bug Report
+description: Report an incorrect or misleading pattern
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: file
+    attributes:
+      label: Which file?
+      description: Select the file containing the issue.
+      options:
+        - SKILL.md
+        - references/react-router-patterns.md
+        - references/dynamodb-patterns.md
+        - references/shopify-api-patterns.md
+        - references/billing-patterns.md
+        - references/app-proxy-patterns.md
+        - references/webhook-patterns.md
+        - references/lambda-architecture.md
+        - references/cdk-infrastructure.md
+        - references/polaris-ui-patterns.md
+        - references/email-patterns.md
+        - references/security-patterns.md
+        - references/testing-patterns.md
+        - references/local-dev-patterns.md
+        - references/production-deployment.md
+        - references/project-conventions.md
+    validations:
+      required: true
+  - type: textarea
+    id: whats-wrong
+    attributes:
+      label: What's wrong?
+      description: Describe the incorrect pattern or misleading guidance.
+      placeholder: "The pattern in section X suggests doing Y, but in production this causes Z."
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-fix
+    attributes:
+      label: Suggested fix
+      description: If you know the correct pattern, please share it.
+      placeholder: "The correct approach is to..."
+    validations:
+      required: false

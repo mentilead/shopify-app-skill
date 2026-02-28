@@ -1,0 +1,38 @@
+name: Pattern Request
+description: Suggest a new pattern or gotcha to document
+title: "[Pattern]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: pattern-description
+    attributes:
+      label: Pattern description
+      description: Describe the pattern, gotcha, or technique you'd like documented.
+      placeholder: "When using X with Y, you need to Z because..."
+    validations:
+      required: true
+  - type: dropdown
+    id: target-file
+    attributes:
+      label: Target reference file
+      description: Which reference file should this pattern go in?
+      options:
+        - SKILL.md (new gotcha)
+        - references/react-router-patterns.md
+        - references/dynamodb-patterns.md
+        - references/shopify-api-patterns.md
+        - references/billing-patterns.md
+        - references/app-proxy-patterns.md
+        - references/webhook-patterns.md
+        - references/lambda-architecture.md
+        - references/cdk-infrastructure.md
+        - references/polaris-ui-patterns.md
+        - references/email-patterns.md
+        - references/security-patterns.md
+        - references/testing-patterns.md
+        - references/local-dev-patterns.md
+        - references/production-deployment.md
+        - references/project-conventions.md
+        - New reference file (describe in pattern description)
+    validations:
+      required: true
