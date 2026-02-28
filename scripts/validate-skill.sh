@@ -46,6 +46,7 @@ REFERENCES=(
   "testing-patterns.md"
   "local-dev-patterns.md"
   "production-deployment.md"
+  "project-conventions.md"
 )
 
 MISSING_REFS=0

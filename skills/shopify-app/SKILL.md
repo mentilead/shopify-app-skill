@@ -266,3 +266,4 @@ Build and test each layer independently. This prevents coupling bugs and makes c
 | Playwright, FrameLocator, selectors | `references/testing-patterns.md` |
 | Docker, DynamoDB Local, startup | `references/local-dev-patterns.md` |
 | Zero-to-production deployment, AWS setup, DNS, CI/CD | `references/production-deployment.md` |
+| File naming, service patterns, env vars, TOML | `references/project-conventions.md` |
