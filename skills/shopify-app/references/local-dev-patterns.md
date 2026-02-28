@@ -130,3 +130,55 @@ EXPORT_QUEUE_URL=http://localhost:4566/000000000000/export-queue
 ```
 
 When `DYNAMODB_ENDPOINT` is set, `initConfig()` skips Secrets Manager and SSM calls — `.env` provides all values directly.
+
+---
+
+## Shopify CLI Workflow
+
+### Scaffolding a New App
+
+```bash
+# Interactive — prompts for template, language, partner org
+shopify app init
+
+# Non-interactive — specify options
+shopify app init --name my-app --template remix --flavor typescript
+```
+
+Template options: `remix` (recommended), `node`, `ruby`, `php`. After init, the CLI creates `shopify.app.toml` with app configuration.
+
+### Deploying to Shopify
+
+```bash
+# Push config + extensions to Shopify (creates a versioned release)
+shopify app deploy
+
+# Deploy with a custom message
+shopify app deploy --message "v1.2: added billing support"
+```
+
+`deploy` pushes the app configuration and any extensions to Shopify's servers. It does **not** deploy your web app — host that separately (Lambda, Docker, etc.).
+
+**Version flow:** Each `deploy` creates a new version. Use `--force` to overwrite the current version instead.
+
+### Other Useful Commands
+
+| Command | Purpose |
+|---------|---------|
+| `shopify app dev` | Start local dev server with tunnel |
+| `shopify app dev --reset` | Clear cached store association |
+| `shopify app info` | Show app config and URLs |
+| `shopify app env pull` | Pull env vars from partner dashboard |
+| `shopify app generate extension` | Scaffold a new extension |
+
+---
+
+## Extension Patterns (Out of Scope)
+
+The following extension types exist but are **out of scope** for this skill:
+
+- **Checkout UI Extensions** — custom checkout steps, upsells, post-purchase
+- **Shopify Functions** — serverless backend logic (discounts, payment customization)
+- **POS Extensions** — point-of-sale UI tiles and screens
+
+For these, consult the official docs: [shopify.dev/docs/apps/build](https://shopify.dev/docs/apps/build).

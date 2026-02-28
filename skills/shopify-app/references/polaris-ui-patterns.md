@@ -113,6 +113,18 @@ Always use React's event system (`onClick`, `onChange`, etc.) via state and hand
 | `bg-surface-warning` | Warning state backgrounds |
 | `bg-surface-critical` | Error state backgrounds |
 
+### Border Tokens
+
+| Token | Value | Use for |
+|-------|-------|---------|
+| `border-radius-100` | 4px | Buttons, inputs |
+| `border-radius-200` | 8px | Cards, modals |
+| `border-radius-300` | 12px | Large containers |
+| `border-radius-full` | 9999px | Avatars, pills |
+| `border-width-025` | 1px | Default borders |
+| `border-color-emphasis` | — | Active/focus borders |
+| `border-color-disabled` | — | Disabled state |
+
 ---
 
 ## Polaris Composition Templates
@@ -167,6 +179,96 @@ Always use React's event system (`onClick`, `onChange`, etc.) via state and hand
 <s-box padding="400" paddingInlineStart="500" background="bg-surface-secondary">
   <!-- Content with custom spacing -->
 </s-box>
+```
+
+### Index Table Page
+
+```tsx
+export default function ItemsIndex() {
+  const { items, pagination } = useLoaderData<typeof loader>();
+  const navigate = useNavigate();
+  const rowMarkup = items.map((item, index) => (
+    <IndexTable.Row id={item.id} key={item.id} position={index}>
+      <IndexTable.Cell>
+        <Text variant="bodyMd" fontWeight="bold">{item.name}</Text>
+      </IndexTable.Cell>
+      <IndexTable.Cell>{item.status}</IndexTable.Cell>
+      <IndexTable.Cell>{item.updatedAt}</IndexTable.Cell>
+    </IndexTable.Row>
+  ));
+
+  return (
+    <Page title="Items" primaryAction={{ content: 'Create item', onAction: () => navigate('/app/items/new') }}>
+      <Card padding="0">
+        <IndexTable
+          resourceName={{ singular: 'item', plural: 'items' }}
+          itemCount={items.length}
+          headings={[{ title: 'Name' }, { title: 'Status' }, { title: 'Updated' }]}
+          selectable
+          bulkActions={[{ content: 'Delete', destructive: true }]}
+          pagination={{ hasNext: pagination.hasNext, hasPrevious: pagination.hasPrevious }}
+        >
+          {rowMarkup}
+        </IndexTable>
+      </Card>
+    </Page>
+  );
+}
+```
+
+### Settings Page
+
+Form with `useFetcher` for non-navigating saves:
+
+```tsx
+export default function Settings() {
+  const { settings } = useLoaderData<typeof loader>();
+  const fetcher = useFetcher();
+  const [brandColor, setBrandColor] = useState(settings.brandColor);
+
+  return (
+    <Page title="Settings" backAction={{ onAction: () => navigate('/app') }}>
+      <fetcher.Form method="post">
+        <BlockStack gap="400">
+          <Card>
+            <FormLayout>
+              <TextField label="Brand color" name="brandColor" value={brandColor} onChange={setBrandColor} autoComplete="off" />
+              <TextField label="Support email" name="supportEmail" defaultValue={settings.supportEmail} autoComplete="email" />
+            </FormLayout>
+          </Card>
+          <InlineStack align="end">
+            <Button variant="primary" submit loading={fetcher.state !== 'idle'}>Save</Button>
+          </InlineStack>
+        </BlockStack>
+      </fetcher.Form>
+    </Page>
+  );
+}
+```
+
+### Dashboard Layout
+
+Stat cards (3-column grid) + recent activity section:
+
+```html
+<s-page title="Dashboard" subtitle="Overview">
+  <s-section>
+    <s-grid columns="3" gap="400">
+      <s-card>
+        <s-box padding="400">
+          <s-stack gap="100">
+            <s-text variant="bodySm" tone="subdued">Total orders</s-text>
+            <s-text variant="headingLg">1,248</s-text>
+          </s-stack>
+        </s-box>
+      </s-card>
+      <!-- Repeat s-card for Revenue, Conversion, etc. -->
+    </s-grid>
+  </s-section>
+  <s-section heading="Recent activity">
+    <!-- IndexTable or DataTable for recent items -->
+  </s-section>
+</s-page>
 ```
 
 ---

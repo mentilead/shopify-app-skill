@@ -221,6 +221,31 @@ your-app/
 
 Use the official **Shopify Dev MCP server** alongside this skill for documentation search, GraphQL schema exploration, and Liquid validation. See [shopify.dev/docs/apps/build/devmcp](https://shopify.dev/docs/apps/build/devmcp).
 
+**MCP config** (add to your `.claude/settings.json` or Claude Desktop config):
+
+```json
+{
+  "mcpServers": {
+    "shopify-dev-mcp": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/shopify-dev-mcp"]
+    }
+  }
+}
+```
+
+---
+
+## Orchestrator Pattern
+
+When building a new feature, decompose into layers and build each before moving to the next:
+
+1. **Database** — keys, entity design, queries (`references/dynamodb-patterns.md`)
+2. **API** — service functions, route loader/action (`references/react-router-patterns.md`)
+3. **UI** — Polaris components, state management (`references/polaris-ui-patterns.md`)
+
+Build and test each layer independently. This prevents coupling bugs and makes code review easier.
+
 ---
 
 ## When to Consult References
