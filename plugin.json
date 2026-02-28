@@ -1,0 +1,24 @@
+{
+  "name": "shopify-app",
+  "version": "1.0.0",
+  "description": "Production patterns for embedded Shopify apps with React Router v7, DynamoDB single-table design, Lambda, SQS, CDK. Covers Polaris UI, Shopify GraphQL API, App Proxy, billing, webhooks, and CDK infrastructure.",
+  "skills": [
+    {
+      "name": "shopify-app",
+      "path": "SKILL.md"
+    }
+  ],
+  "author": "Peer Jakobsen",
+  "license": "MIT",
+  "repository": "https://github.com/peerjakobsen/shopify-app-skill",
+  "keywords": [
+    "shopify",
+    "embedded-app",
+    "react-router",
+    "polaris",
+    "dynamodb",
+    "lambda",
+    "cdk",
+    "serverless"
+  ]
+}
