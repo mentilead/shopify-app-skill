@@ -22,7 +22,8 @@ Every pattern is battle-tested from real app development and Shopify App Store s
 ## Features at a Glance
 
 - **10 Critical Gotchas** — WRONG/CORRECT examples for the hardest-to-debug issues
-- **15 Reference Files** — deep-dive patterns for every layer of the stack
+- **16 Reference Files** — deep-dive patterns for every layer of the stack
+- **9 Slash Commands** — scaffolding and workflow automation for common tasks
 - **Battle-Tested** — every pattern from production Shopify App Store apps
 - **Token-Optimized** — designed for Claude Code's context window
 
@@ -37,13 +38,14 @@ Every pattern is battle-tested from real app development and Shopify App Store s
 
 ### Option 2: Manual (copy to project)
 
-Copy `skills/shopify-app/SKILL.md` and `skills/shopify-app/references/` into your project's `.claude/skills/` directory:
+Copy `skills/shopify-app/SKILL.md`, `skills/shopify-app/references/`, and `commands/` into your project's `.claude/` directory:
 
 ```bash
 git clone https://github.com/mentilead/shopify-app-skill.git
-mkdir -p .claude/skills/shopify-app
+mkdir -p .claude/skills/shopify-app .claude/commands
 cp shopify-app-skill/skills/shopify-app/SKILL.md .claude/skills/shopify-app/SKILL.md
 cp -r shopify-app-skill/skills/shopify-app/references .claude/skills/shopify-app/references
+cp shopify-app-skill/commands/*.md .claude/commands/
 ```
 
 ### Option 3: Git submodule
@@ -74,7 +76,18 @@ shopify-app-skill/
 │           ├── testing-patterns.md           # Playwright, FrameLocator, auth setup
 │           ├── local-dev-patterns.md         # Docker, DynamoDB Local, startup sequence
 │           ├── production-deployment.md      # CloudFront, OIDC deploys, environment config
-│           └── project-conventions.md        # File naming, imports, project structure rules
+│           ├── project-conventions.md        # File naming, imports, project structure rules
+│           └── feature-exploration.md        # 8-step pre-implementation analysis framework
+├── commands/
+│   ├── explore-feature.md                    # /explore-feature — plan a new feature
+│   ├── add-webhook.md                        # /add-webhook — scaffold webhook handler
+│   ├── add-billing-plan.md                   # /add-billing-plan — add subscription plan
+│   ├── add-entity.md                         # /add-entity — design DynamoDB entity
+│   ├── add-api-route.md                      # /add-api-route — scaffold route with auth
+│   ├── add-proxy-page.md                     # /add-proxy-page — scaffold App Proxy page
+│   ├── add-email-template.md                 # /add-email-template — create email with SQS
+│   ├── add-e2e-test.md                       # /add-e2e-test — scaffold Playwright test
+│   └── setup-local-dev.md                    # /setup-local-dev — configure dev environment
 ├── .claude-plugin/
 │   ├── plugin.json                           # Plugin manifest
 │   └── marketplace.json                      # Marketplace manifest
@@ -94,6 +107,24 @@ shopify-app-skill/
 ├── README.md                                 # This file
 └── SECURITY.md                               # Security policy
 ```
+
+## Commands
+
+Slash commands you can use in Claude Code after installing the skill:
+
+| Command | What It Does |
+|---------|-------------|
+| `/explore-feature <feature>` | Run 8-step analysis framework before implementing a feature |
+| `/add-webhook <topic>` | Scaffold webhook handler with auth, idempotency, GDPR compliance |
+| `/add-billing-plan <plan>` | Add subscription plan with trial, gating, and pricing UI |
+| `/add-entity <name>` | Design DynamoDB entity with keys, mappers, and service functions |
+| `/add-api-route <route>` | Scaffold route with authentication, validation, tenant scoping |
+| `/add-proxy-page <page>` | Scaffold App Proxy page with HMAC, inline CSS, GET-only constraints |
+| `/add-email-template <name>` | Create email template with SQS queuing and worker processing |
+| `/add-e2e-test <feature>` | Scaffold Playwright test with FrameLocator for embedded apps |
+| `/setup-local-dev` | Verify and configure Docker, DynamoDB Local, LocalStack, .env |
+
+To use commands, copy the `commands/` directory to your project's `.claude/commands/` directory.
 
 ## Token Budgets
 
