@@ -240,11 +240,12 @@ Use the official **Shopify Dev MCP server** alongside this skill for documentati
 
 When building a new feature, decompose into layers and build each before moving to the next:
 
+0. **Explore** — constraints, architecture, security, integration points (`references/feature-exploration.md`)
 1. **Database** — keys, entity design, queries (`references/dynamodb-patterns.md`)
 2. **API** — service functions, route loader/action (`references/react-router-patterns.md`)
 3. **UI** — Polaris components, state management (`references/polaris-ui-patterns.md`)
 
-Build and test each layer independently. This prevents coupling bugs and makes code review easier.
+Step 0 runs when planning or analyzing a feature — not during active implementation. Build and test each layer independently. This prevents coupling bugs and makes code review easier.
 
 ---
 
@@ -266,4 +267,5 @@ Build and test each layer independently. This prevents coupling bugs and makes c
 | Playwright, FrameLocator, selectors | `references/testing-patterns.md` |
 | Docker, DynamoDB Local, startup | `references/local-dev-patterns.md` |
 | Zero-to-production deployment, AWS setup, DNS, CI/CD | `references/production-deployment.md` |
+| Planning a new feature, analyzing constraints | `references/feature-exploration.md` |
 | File naming, service patterns, env vars, TOML | `references/project-conventions.md` |
