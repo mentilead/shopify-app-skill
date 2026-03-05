@@ -23,3 +23,4 @@ Run the 8-step feature exploration framework before implementing a new Shopify f
 5. For each relevant step, fill in the templates and checklists with specifics for the described feature.
 6. Cross-reference other skill references as needed (security-patterns.md, billing-patterns.md, testing-patterns.md, cdk-infrastructure.md).
 7. Summarize findings and flag any blockers or open questions before implementation begins.
+8. After presenting the summary, ask the user: **"Do you want me to update the relevant feature in `roadmap.md`?"** If yes, read `roadmap.md`, find the matching feature section, and update it with the constraints, decisions, and risks discovered during exploration.
